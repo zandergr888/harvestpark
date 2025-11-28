@@ -8,9 +8,7 @@ export default function About() {
         <div className={styles.content}>
           <h2>Our Story</h2>
           <p>
-            Harvestpark Coffeehouse is more than just a place to get your morning
-            coffee—it's a sanctuary for connection, creativity, and the simple joy of
-            craftsmanship.
+            At harvestpark coffeehouse, we believe in serving only the finest coffee. Each cup is crafted using premium beans sourced from renowned roasters, ensuring a rich and satisfying experience. Custom house-made syrups are our specialty.
           </p>
           <p>
             Born from a passion for exceptional coffee and warm hospitality, we're

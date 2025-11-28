@@ -52,8 +52,7 @@ export default function Offerings() {
               <p className={styles.badge}>Opening Fall 2026</p>
               <p>
                 Coming to Rockwall: a destination café experience featuring premium
-                single-origin coffee, pastries, and a curated atmosphere for
-                connection.
+                single-origin coffee, Custom house-made syrups are our specialty.
               </p>
               <button
                 className="btn-secondary"
