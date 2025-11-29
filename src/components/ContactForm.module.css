@@ -41,6 +41,18 @@
   font-size: var(--text-sm);
 }
 
+.infoBox a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.infoBox a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 .form {
   display: flex;
   flex-direction: column;
