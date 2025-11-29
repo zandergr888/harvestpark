@@ -1,21 +1,48 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import styles from './NewsletterSignup.module.css';
 
 interface NewsletterFormData {
   email: string;
 }
 
+// Initialize Supabase
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
 export default function NewsletterSignup() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<NewsletterFormData>();
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const onSubmit = (data: NewsletterFormData) => {
-    // TODO: Integrate with Mailchimp or Supabase
-    console.log('Newsletter signup:', data);
-    setSubmitted(true);
-    reset();
-    setTimeout(() => setSubmitted(false), 3000);
+  const onSubmit = async (data: NewsletterFormData) => {
+    try {
+      setError('');
+      
+      // Save to Supabase newsletter_subscribers table
+      const { error: dbError } = await supabase
+        .from('newsletter_subscribers')
+        .insert({
+          email: data.email,
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        setError('Failed to subscribe. Please try again.');
+        return;
+      }
+
+      console.log('Newsletter signup:', data);
+      setSubmitted(true);
+      reset();
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err) {
+      console.error('Error:', err);
+      setError('Failed to subscribe. Please try again.');
+    }
   };
 
   return (
@@ -44,6 +71,7 @@ export default function NewsletterSignup() {
           {errors.email && (
             <p className={styles.error}>{errors.email.message}</p>
           )}
+          {error && <p className={styles.error}>{error}</p>}
         </form>
 
         {submitted && (

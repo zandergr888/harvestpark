@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { createClient } from '@supabase/supabase-js';
 import styles from './ContactForm.module.css';
 
 interface ContactFormData {
@@ -18,6 +19,12 @@ emailjs.init({
   blockHeadless: true,
 });
 
+// Initialize Supabase
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
 export default function ContactForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
   const [submitted, setSubmitted] = useState(false);
@@ -28,6 +35,22 @@ export default function ContactForm() {
     try {
       setError('');
       setIsLoading(true);
+
+      // Save to Supabase
+      const { error: dbError } = await supabase
+        .from('contact_submissions')
+        .insert({
+          name: data.name,
+          email: data.email,
+          event_type: data.eventType,
+          event_date: data.date || null,
+          message: data.message,
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        // Continue even if database fails - email is more important
+      }
 
       // Send email via EmailJS
       await emailjs.send(
