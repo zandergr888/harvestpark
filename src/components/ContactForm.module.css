@@ -20,6 +20,27 @@
   color: var(--text);
 }
 
+.infoBox {
+  background-color: rgba(201, 166, 107, 0.1);
+  border-left: 4px solid var(--accent);
+  padding: var(--spacing-lg);
+  border-radius: 0.5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.infoBox h3 {
+  color: var(--primary);
+  font-size: var(--text-lg);
+  margin-bottom: var(--spacing-md);
+  font-weight: 600;
+}
+
+.infoBox p {
+  color: var(--text);
+  line-height: 1.6;
+  font-size: var(--text-sm);
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -79,6 +100,18 @@
   border: 1px solid var(--accent);
   border-radius: 0.5rem;
   color: var(--primary);
+  text-align: center;
+  font-weight: 500;
+  margin-top: var(--spacing-md);
+  animation: slideIn 0.3s ease-out;
+}
+
+.errorMessage {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: rgba(255, 107, 107, 0.15);
+  border: 1px solid #ff6b6b;
+  border-radius: 0.5rem;
+  color: #ff6b6b;
   text-align: center;
   font-weight: 500;
   margin-top: var(--spacing-md);

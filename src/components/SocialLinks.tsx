@@ -2,9 +2,8 @@ import styles from './SocialLinks.module.css';
 
 export default function SocialLinks() {
   const socialLinks = [
-    { name: 'Instagram', url: 'https://instagram.com', icon: '📸' },
-    { name: 'Facebook', url: 'https://facebook.com', icon: 'f' },
-    { name: 'Twitter', url: 'https://twitter.com', icon: '𝕏' },
+    { name: 'Instagram', url: 'https://www.instagram.com/harvestpark.coffee/', icon: '📸' },
+    { name: 'Facebook', url: 'https://www.facebook.com/people/Harvestparkcoffee/61580736117341/', icon: 'f' },
   ];
 
   return (
