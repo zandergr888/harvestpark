@@ -11,8 +11,12 @@ interface ContactFormData {
   message: string;
 }
 
-// Initialize EmailJS
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+// Initialize EmailJS with domain restriction
+// This allows the key to work on your production domain
+emailjs.init({
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  blockHeadless: true,
+});
 
 export default function ContactForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
