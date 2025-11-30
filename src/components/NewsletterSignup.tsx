@@ -8,10 +8,12 @@ interface NewsletterFormData {
 }
 
 // Initialize Supabase
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+const supabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+  ? createClient(
+      import.meta.env.VITE_SUPABASE_URL,
+      import.meta.env.VITE_SUPABASE_ANON_KEY
+    )
+  : null;
 
 export default function NewsletterSignup() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<NewsletterFormData>();
@@ -22,17 +24,21 @@ export default function NewsletterSignup() {
     try {
       setError('');
       
-      // Save to Supabase newsletter_subscribers table
-      const { error: dbError } = await supabase
-        .from('newsletter_subscribers')
-        .insert({
-          email: data.email,
-        });
+      // Save to Supabase (only if configured)
+      if (supabase) {
+        const { error: dbError } = await supabase
+          .from('newsletter_subscribers')
+          .insert({
+            email: data.email,
+          });
 
-      if (dbError) {
-        console.error('Database error:', dbError);
-        setError('Failed to subscribe. Please try again.');
-        return;
+        if (dbError) {
+          console.error('Database error:', dbError);
+          setError('Failed to subscribe. Please try again.');
+          return;
+        }
+      } else {
+        console.warn('Supabase not configured. Email will not be saved.');
       }
 
       console.log('Newsletter signup:', data);

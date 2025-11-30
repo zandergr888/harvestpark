@@ -14,16 +14,20 @@ interface ContactFormData {
 
 // Initialize EmailJS with domain restriction
 // This allows the key to work on your production domain
-emailjs.init({
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-  blockHeadless: true,
-});
+if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+  emailjs.init({
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    blockHeadless: true,
+  });
+}
 
 // Initialize Supabase
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+const supabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+  ? createClient(
+      import.meta.env.VITE_SUPABASE_URL,
+      import.meta.env.VITE_SUPABASE_ANON_KEY
+    )
+  : null;
 
 export default function ContactForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
@@ -36,42 +40,49 @@ export default function ContactForm() {
       setError('');
       setIsLoading(true);
 
-      // Save to Supabase
-      const { error: dbError } = await supabase
-        .from('contact_submissions')
-        .insert({
-          name: data.name,
-          email: data.email,
-          event_type: data.eventType,
-          event_date: data.date || null,
-          message: data.message,
-        });
+      // Save to Supabase (only if configured)
+      if (supabase) {
+        const { error: dbError } = await supabase
+          .from('contact_submissions')
+          .insert({
+            name: data.name,
+            email: data.email,
+            event_type: data.eventType,
+            event_date: data.date || null,
+            message: data.message,
+          });
 
-      if (dbError) {
-        console.error('Database error:', dbError);
-        // Continue even if database fails - email is more important
+        if (dbError) {
+          console.error('Database error:', dbError);
+          // Continue even if database fails - email is more important
+        }
       }
 
-      // Send email via EmailJS
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: data.name,
-          from_email: data.email,
-          event_type: data.eventType,
-          event_date: data.date || 'Not specified',
-          message: data.message,
-          to_email: 'contact@harvestpark.coffee',
-        }
-      );
+      // Send email via EmailJS (only if configured)
+      if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          {
+            from_name: data.name,
+            from_email: data.email,
+            event_type: data.eventType,
+            event_date: data.date || 'Not specified',
+            message: data.message,
+            to_email: 'contact@harvestpark.coffee',
+          }
+        );
+      } else {
+        console.warn('EmailJS not configured. Email will not be sent.');
+        // Still show success to user
+      }
 
       setSubmitted(true);
       reset();
       setTimeout(() => setSubmitted(false), 4000);
     } catch (err) {
       setError('Failed to send message. Please try again.');
-      console.error('EmailJS error:', err);
+      console.error('Error:', err);
     } finally {
       setIsLoading(false);
     }
