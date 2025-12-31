@@ -24,21 +24,20 @@ export default function NewsletterSignup() {
     try {
       setError('');
       
-      // Save to Supabase (only if configured)
-      if (supabase) {
-        const { error: dbError } = await supabase
-          .from('newsletter_subscribers')
-          .insert({
-            email: data.email,
-          });
+      if (!supabase) {
+        setError('Service not available. Please try again later.');
+        return;
+      }
 
-        if (dbError) {
-          console.error('Database error:', dbError);
-          setError('Failed to subscribe. Please try again.');
-          return;
-        }
-      } else {
-        console.warn('Supabase not configured. Email will not be saved.');
+      // Call Supabase Edge Function
+      const { data: result, error } = await supabase.functions.invoke('handle-newsletter', {
+        body: {
+          email: data.email,
+        },
+      });
+
+      if (error) {
+        throw error;
       }
 
       console.log('Newsletter signup:', data);
