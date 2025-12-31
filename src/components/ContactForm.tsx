@@ -29,7 +29,7 @@ export default function ContactForm() {
       setIsLoading(true);
 
       // Call Supabase Edge Function
-      const { data: result, error } = await supabase.functions.invoke('handle-contact-form', {
+      const { error } = await supabase.functions.invoke('handle-contact-form', {
         body: {
           name: data.name,
           email: data.email,

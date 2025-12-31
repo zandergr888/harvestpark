@@ -23,7 +23,7 @@ export default function NewsletterSignup() {
       setError('');
 
       // Call Supabase Edge Function
-      const { data: result, error } = await supabase.functions.invoke('handle-newsletter', {
+      const { error } = await supabase.functions.invoke('handle-newsletter', {
         body: {
           email: data.email,
         },
