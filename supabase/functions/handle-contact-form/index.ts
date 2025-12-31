@@ -6,6 +6,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+const NOTIFICATION_EMAIL = Deno.env.get('NOTIFICATION_EMAIL') || 'catering@harvestpark.coffee'
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -49,6 +52,38 @@ serve(async (req) => {
         JSON.stringify({ error: 'Failed to submit form' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
+    }
+
+    // Send email notification via Resend
+    if (RESEND_API_KEY) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${RESEND_API_KEY}`,
+          },
+          body: JSON.stringify({
+            from: 'Harvestpark Coffee <notifications@harvestpark.coffee>',
+            to: [NOTIFICATION_EMAIL],
+            subject: `New Coffee Cart Booking: ${eventType}`,
+            html: `
+              <h2>New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Event Type:</strong> ${eventType}</p>
+              <p><strong>Event Date:</strong> ${eventDate || 'Not specified'}</p>
+              <p><strong>Message:</strong></p>
+              <p>${message}</p>
+              <hr>
+              <p><small>Submitted at ${new Date().toLocaleString()}</small></p>
+            `,
+          }),
+        })
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError)
+        // Don't fail the request if email fails
+      }
     }
 
     return new Response(

@@ -6,6 +6,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+const NOTIFICATION_EMAIL = Deno.env.get('NOTIFICATION_EMAIL') || 'catering@harvestpark.coffee'
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -41,10 +44,44 @@ serve(async (req) => {
 
     if (error) {
       console.error('Database error:', error)
+      // Handle duplicate email gracefully
+      if (error.code === '23505') {
+        return new Response(
+          JSON.stringify({ success: true, message: 'Already subscribed' }),
+          { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
       return new Response(
         JSON.stringify({ error: 'Failed to subscribe' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
+    }
+
+    // Send email notification via Resend
+    if (RESEND_API_KEY) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${RESEND_API_KEY}`,
+          },
+          body: JSON.stringify({
+            from: 'Harvestpark Coffee <notifications@harvestpark.coffee>',
+            to: [NOTIFICATION_EMAIL],
+            subject: 'New Newsletter Signup! 📧',
+            html: `
+              <h2>New Newsletter Subscriber</h2>
+              <p><strong>Email:</strong> ${email}</p>
+              <hr>
+              <p><small>Signed up at ${new Date().toLocaleString()}</small></p>
+            `,
+          }),
+        })
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError)
+        // Don't fail the request if email fails
+      }
     }
 
     return new Response(

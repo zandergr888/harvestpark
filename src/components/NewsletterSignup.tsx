@@ -8,8 +8,8 @@ interface NewsletterFormData {
 }
 
 // Initialize Supabase (fallback to hardcoded values if env vars not available)
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://sxfahukoleoqihoueodx.supabase.co';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4ZmFodWtvbGVvcWlob3Vlb2R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NDU1MjcsImV4cCI6MjA4MDAyMTUyN30.OD-Uag1mFea_dIyRIy_BMxkgu0c0LhfXheY9E33UTPE';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://nqcecbegtevzfmmbifrn.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xY2VjYmVndGV2emZtbWJpZnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxNjExNjIsImV4cCI6MjA4MjczNzE2Mn0.-i4OS1eI2YzOP4OxJV4dPeGvp-xNrNlS86wJCtzSRdY';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
