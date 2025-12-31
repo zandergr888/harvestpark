@@ -20,7 +20,7 @@ export default function Hero() {
       <div className={styles.content}>
         <h1 className={styles.heading}>Coming Soon</h1>
         <p className={styles.subheading}>to Rockwall, Texas</p>
-        <p className={styles.tagline}>Opening Fall 2026</p>
+        <p className={styles.tagline}>Opening Winter 2026</p>
         <div className={styles.ctaButtons}>
           <button
             className="btn-secondary"

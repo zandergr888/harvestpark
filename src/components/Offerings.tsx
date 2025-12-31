@@ -49,7 +49,7 @@ export default function Offerings() {
             </div>
             <div className={styles.cardContent}>
               <h3>Future Café</h3>
-              <p className={styles.badge}>Opening Fall 2026</p>
+              <p className={styles.badge}>Opening Winter 2026</p>
               <p>
                 Coming to Rockwall: a destination café experience featuring premium
                 single-origin coffee, Custom house-made syrups are our specialty.
