@@ -11,13 +11,11 @@ interface ContactFormData {
   message: string;
 }
 
-// Initialize Supabase for Edge Function calls
-const supabase = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
-  ? createClient(
-      import.meta.env.VITE_SUPABASE_URL,
-      import.meta.env.VITE_SUPABASE_ANON_KEY
-    )
-  : null;
+// Initialize Supabase for Edge Function calls (fallback to hardcoded values if env vars not available)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://sxfahukoleoqihoueodx.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4ZmFodWtvbGVvcWlob3Vlb2R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NDU1MjcsImV4cCI6MjA4MDAyMTUyN30.OD-Uag1mFea_dIyRIy_BMxkgu0c0LhfXheY9E33UTPE';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 export default function ContactForm() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
@@ -29,11 +27,6 @@ export default function ContactForm() {
     try {
       setError('');
       setIsLoading(true);
-
-      if (!supabase) {
-        setError('Service not available. Please try again later.');
-        return;
-      }
 
       // Call Supabase Edge Function
       const { data: result, error } = await supabase.functions.invoke('handle-contact-form', {
