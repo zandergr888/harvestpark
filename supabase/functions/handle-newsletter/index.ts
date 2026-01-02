@@ -9,6 +9,10 @@ const corsHeaders = {
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 const NOTIFICATION_EMAIL = Deno.env.get('NOTIFICATION_EMAIL') || 'catering@harvestpark.coffee'
 
+console.log('Environment check:')
+console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY)
+console.log('NOTIFICATION_EMAIL:', NOTIFICATION_EMAIL)
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -58,16 +62,18 @@ serve(async (req) => {
     }
 
     // Send email notification via Resend
+    console.log('About to send email, RESEND_API_KEY exists:', !!RESEND_API_KEY)
     if (RESEND_API_KEY) {
       try {
-        await fetch('https://api.resend.com/emails', {
+        console.log('Sending email to:', NOTIFICATION_EMAIL)
+        const emailResponse = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${RESEND_API_KEY}`,
           },
           body: JSON.stringify({
-            from: 'Harvestpark Coffee <notifications@harvestpark.coffee>',
+            from: 'Harvestpark Coffee <notifications@updates.harvestpark.coffee>',
             to: [NOTIFICATION_EMAIL],
             subject: 'New Newsletter Signup! 📧',
             html: `
@@ -78,10 +84,14 @@ serve(async (req) => {
             `,
           }),
         })
+        const emailResult = await emailResponse.json()
+        console.log('Email API response:', emailResponse.status, emailResult)
       } catch (emailError) {
         console.error('Failed to send notification email:', emailError)
         // Don't fail the request if email fails
       }
+    } else {
+      console.log('RESEND_API_KEY not set, skipping email')
     }
 
     return new Response(
