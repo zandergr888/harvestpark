@@ -1,5 +1,4 @@
 import styles from './Hero.module.css';
-import coffeePouring from '../assets/coffee-pouring.webp';
 
 export default function Hero() {
   const scrollToSection = (id: string) => {
@@ -12,11 +11,15 @@ export default function Hero() {
   return (
     <section className={styles.hero} id="hero">
       <div className={styles.overlay}></div>
-      <img
-        src={coffeePouring}
-        alt="Coffee Art"
+      <video
         className={styles.backgroundImage}
-      />
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/HPCH Video.mp4" type="video/mp4" />
+      </video>
       <div className={styles.content}>
         <h1 className={styles.heading}>Coming Soon</h1>
         <p className={styles.subheading}>to Rockwall, Texas</p>
