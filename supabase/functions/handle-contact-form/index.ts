@@ -6,6 +6,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
+const NOTIFICATION_EMAIL = Deno.env.get('NOTIFICATION_EMAIL') || 'catering@harvestpark.coffee'
+
+console.log('Environment check:')
+console.log('RESEND_API_KEY exists:', !!RESEND_API_KEY)
+console.log('NOTIFICATION_EMAIL:', NOTIFICATION_EMAIL)
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -49,6 +56,44 @@ serve(async (req) => {
         JSON.stringify({ error: 'Failed to submit form' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
+    }
+
+    // Send email notification via Resend
+    console.log('About to send email, RESEND_API_KEY exists:', !!RESEND_API_KEY)
+    if (RESEND_API_KEY) {
+      try {
+        console.log('Sending email to:', NOTIFICATION_EMAIL)
+        const emailResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${RESEND_API_KEY}`,
+          },
+          body: JSON.stringify({
+            from: 'Harvestpark Coffee <notifications@updates.harvestpark.coffee>',
+            to: [NOTIFICATION_EMAIL],
+            subject: `New Event Inquiry - ${eventType}`,
+            html: `
+              <h2>New Contact Form Submission</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Event Type:</strong> ${eventType}</p>
+              <p><strong>Event Date:</strong> ${eventDate || 'Not specified'}</p>
+              <p><strong>Message:</strong></p>
+              <p>${message}</p>
+              <hr>
+              <p><small>Submitted at ${new Date().toLocaleString()}</small></p>
+            `,
+          }),
+        })
+        const emailResult = await emailResponse.json()
+        console.log('Email API response:', emailResponse.status, emailResult)
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError)
+        // Don't fail the request if email fails
+      }
+    } else {
+      console.log('RESEND_API_KEY not set, skipping email')
     }
 
     return new Response(
