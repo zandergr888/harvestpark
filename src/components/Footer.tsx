@@ -25,7 +25,7 @@ export default function Footer() {
       <div className={styles.container}>
         <div className={styles.content}>
           <h3>Harvestpark Coffeehouse</h3>
-          <p>Coming to Rockwall, Texas Fall 2026</p>
+          <p>Coming to Rockwall, Texas Spring 2027</p>
           
           <SocialLinks />
         </div>
