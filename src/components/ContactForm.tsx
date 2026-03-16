@@ -64,7 +64,7 @@ export default function ContactForm() {
           <div className={styles.infoBox}>
             <h3>Stay Caffeinated!</h3>
             <p>
-              Have a comment or a question? Ready to schedule our coffee cart? Use the form below or email us at <a href="mailto:catering@harvestpark.coffee">catering@harvestpark.coffee</a> and we can send you a customized quote - catering packages start at $695 for up to 50 people. Send us a message, and we will get back to you shortly.
+              Need help planning your next big event? Ready to schedule our coffee cart? Use the form below or email us at <a href="mailto:catering@harvestpark.coffee">catering@harvestpark.coffee</a> and we can send you a customized quote - catering packages start at $695 for up to 50 people. Send us a message, and we will get back to you shortly.
             </p>
           </div>
 
@@ -106,6 +106,7 @@ export default function ContactForm() {
                 <option value="">Select an event type</option>
                 <option value="wedding">Wedding</option>
                 <option value="corporate">Corporate Event</option>
+                <option value="school">School Event</option>
                 <option value="private">Private Party</option>
                 <option value="other">Other</option>
               </select>

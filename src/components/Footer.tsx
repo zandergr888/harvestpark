@@ -25,7 +25,6 @@ export default function Footer() {
       <div className={styles.container}>
         <div className={styles.content}>
           <h3>Harvestpark Coffeehouse</h3>
-          <p>Coming to Rockwall, Texas Spring 2027</p>
           
           <SocialLinks />
         </div>
@@ -62,7 +61,7 @@ export default function Footer() {
                 <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
                 
                 <h3>Contact Us</h3>
-                <p>If you have any questions about this Privacy Policy, please contact us at info@harvestparkcoffeehouse.com</p>
+                <p>If you have any questions about this Privacy Policy, please contact us at development@harvestpark.coffee</p>
               </div>
             )}
 
@@ -85,7 +84,7 @@ export default function Footer() {
                 <p>In no event shall Harvestpark Coffeehouse or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption).</p>
                 
                 <h3>Contact Us</h3>
-                <p>If you have any questions about these Terms of Service, please contact us at info@harvestparkcoffeehouse.com</p>
+                <p>If you have any questions about these Terms of Service, please contact us at development@harvestpark.coffee</p>
               </div>
             )}
           </div>

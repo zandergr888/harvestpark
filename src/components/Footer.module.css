@@ -19,6 +19,7 @@
   color: white;
   margin-bottom: var(--spacing-sm);
   font-size: var(--text-lg);
+  font-family: 'Poppins', sans-serif;
 }
 
 .content p {

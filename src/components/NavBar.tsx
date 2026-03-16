@@ -20,7 +20,7 @@ export default function NavBar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <h2>Harvestpark</h2>
+          <img src="/favicon.png.jpg" alt="Harvestpark Coffeehouse" className={styles.logoImage} />
         </div>
 
         <button

@@ -1,25 +1,17 @@
-import { useEffect, useState } from 'react';
 import styles from './Gallery.module.css';
-import coffeePouring from '../assets/coffee-pouring.webp';
-import coffeeBeans from '../assets/coffee-beans.webp';
-import espressoMachine from '../assets/espresso-machine.webp';
-import teamPhoto from '../assets/harvestpark-team.webp';
+
+const images = [
+  '/image 11.jpeg',
+  '/image 2.jpeg',
+  '/image 3.jpeg',
+  '/image 4.jpeg',
+  '/image 5.jpeg',
+  '/image 6.jpeg',
+  '/image 7.jpeg',
+  '/image 8.jpeg',
+];
 
 export default function Gallery() {
-  const [images, setImages] = useState<string[]>([]);
-
-  useEffect(() => {
-    // Harvestpark brand photography
-    const brandImages = [
-      coffeePouring,
-      coffeeBeans,
-      espressoMachine,
-      teamPhoto,
-      'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&h=400&fit=crop',
-      'https://images.unsplash.com/photo-1495474472645-4c71bcdd2151?w=400&h=400&fit=crop',
-    ];
-    setImages(brandImages);
-  }, []);
 
   return (
     <section className={styles.gallery} id="gallery">

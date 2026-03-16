@@ -8,17 +8,16 @@ export default function About() {
         <div className={styles.content}>
           <h2>Our Story</h2>
           <p>
-            At harvestpark coffeehouse, we believe in serving only the finest coffee. Each cup is crafted using premium beans sourced from renowned roasters, ensuring a rich and satisfying experience. Custom house-made syrups are our specialty.
+            <strong>Coffee as a craft. Hospitality as a calling.</strong>
           </p>
           <p>
-            Born from a passion for exceptional coffee and warm hospitality, we're
-            bringing artisanal brews and handcrafted experiences to the heart of
-            Rockwall. Our coffee cart is available now for catering and events, while
-            we prepare our permanent café to open Spring 2027.
+            We believe that coffee has always been more than just a conduit of caffeine; it's a craft, a culture. Our vision is that the beans become a means of provision. Your morning ritual deserves the value and quality we bring to every specialty brew.
           </p>
           <p>
-            Every cup tells a story. Every visit creates a memory. Welcome to the
-            harvest of life's finest moments.
+            Harvestpark started in Summer 2026 from an entrepreneurial dream. Making tasty lattes and being servants to others is what we do best, and we can't wait to see where this journey takes us!
+          </p>
+          <p>
+            Our coffee cart is available now for catering and events across the DFW area, while we prepare our permanent café to open Spring 2027 in Rockwall.
           </p>
         </div>
         <div className={styles.imageContainer}>

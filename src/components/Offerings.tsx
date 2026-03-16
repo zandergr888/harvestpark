@@ -1,6 +1,4 @@
 import styles from './Offerings.module.css';
-import teamPhoto from '../assets/harvestpark-team.webp';
-import espressoMachine from '../assets/espresso-machine.webp';
 
 export default function Offerings() {
   const scrollToSection = (id: string) => {
@@ -18,7 +16,7 @@ export default function Offerings() {
           <div className={styles.card}>
             <div className={styles.cardImage}>
               <img
-                src={teamPhoto}
+                src="/image 10.jpeg"
                 alt="Coffee Cart Catering Service"
                 loading="lazy"
               />
@@ -27,8 +25,8 @@ export default function Offerings() {
               <h3>Coffee Cart Catering</h3>
               <p className={styles.badge}>Available Now</p>
               <p>
-                Bring Harvestpark's artisanal coffee experience to your events,
-                weddings, corporate gatherings, and special occasions.
+                Bring Harvestpark's Mobile Espresso Bar to your parties, school events,
+                weddings, corporate gatherings, and special occasions!
               </p>
               <button
                 className="btn-secondary"
@@ -42,7 +40,7 @@ export default function Offerings() {
           <div className={styles.card}>
             <div className={styles.cardImage}>
               <img
-                src={espressoMachine}
+                src="/future cafe photo.PNG"
                 alt="Future Harvestpark Café Experience"
                 loading="lazy"
               />
@@ -51,15 +49,16 @@ export default function Offerings() {
               <h3>Future Café</h3>
               <p className={styles.badge}>Opening Spring 2027</p>
               <p>
-                Coming to Rockwall: a destination café experience featuring premium
-                single-origin coffee, Custom house-made syrups are our specialty.
+                Coming to Rockwall, TX: a hospitality-focused Coffeehouse featuring
+                a roastery, house-made syrups, and pickleball courts.
               </p>
-              <button
-                className="btn-secondary"
-                onClick={() => scrollToSection('newsletter')}
+              <a
+                href="https://www.instagram.com/harvestpark.coffee/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Stay Updated
-              </button>
+                <button className="btn-secondary">Stay Updated</button>
+              </a>
             </div>
           </div>
         </div>

@@ -26,12 +26,6 @@ export default function Hero() {
         <p className={styles.tagline}>Opening Spring 2027</p>
         <div className={styles.ctaButtons}>
           <button
-            className="btn-secondary"
-            onClick={() => scrollToSection('newsletter')}
-          >
-            Join the Waitlist
-          </button>
-          <button
             className="btn-primary"
             onClick={() => scrollToSection('contact')}
           >
