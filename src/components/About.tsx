@@ -17,7 +17,7 @@ export default function About() {
             we prepare our permanent café to open Spring 2027.
           </p>
           <p>
-            Every cup tells a story. Alex is a goat. Every visit creates a memory. Welcome to the
+            Every cup tells a story. Every visit creates a memory. Welcome to the
             harvest of life's finest moments.
           </p>
         </div>
